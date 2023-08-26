@@ -6,6 +6,7 @@ const morgan = require('./src/middleware/morgan')
 const helmet = require('./src/middleware/helmet')
 const cors = require('./src/middleware/cors')
 require('dotenv').config()
+const user = require('./src/router/userRouter')
 
 app.use(bodyParser.json());
 app.use(
@@ -21,6 +22,8 @@ app.use(helmet)
 app.get('/', (req, res) => {
     res.json({ info: 'Recipe API Version 2', author: 'Mahardhika Putra Pratama'})
 })
+
+app.use(user)
 
 app.listen(port, ()=>{
     console.log(`App running on ${process.env.BASE_URL}`)

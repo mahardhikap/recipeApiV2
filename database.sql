@@ -5,7 +5,7 @@ CREATE TABLE category (
     name VARCHAR NOT NULL
 );
 
-CREATE TABLE user (
+CREATE TABLE register_user (
     id SERIAL PRIMARY KEY,
     username VARCHAR NOT NULL,
     email VARCHAR NOT NULL,
@@ -25,5 +25,5 @@ CREATE TABLE recipe (
     photo_id VARCHAR,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     FOREIGN KEY (category_id) REFERENCES category(id),
-    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES register_user(id) ON DELETE CASCADE
 );

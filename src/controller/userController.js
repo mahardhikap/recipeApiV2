@@ -1,0 +1,169 @@
+const {postRegisterUser, checkEmailUser, getUserById, getUserAll, putUserById, delUserById} = require('../model/userModel')
+const { hashPassword, verifyPassword } = require('../middleware/bcrypt')
+const {generateToken} = require('../middleware/jwt')
+const cloudinary = require('../config/cloudinary')
+
+const userController = {
+    registerUser: async (req, res) => {
+        try {
+            const {username, email, password, roles} = req.body
+            if (!username || !email || !password) {
+                return res.status(404).json({status:404, message:"All field must be filled!"})
+            }
+            let user = await checkEmailUser(email)
+            if(user.rows[0]){
+                return res.status(404).json({statuts:404, message:"Email has been registered!"})
+            }
+            let post = {
+                username: username,
+                email:email,
+                password:await hashPassword(password),
+                roles:roles || 'member'
+            }
+
+            if (req.file) {
+                const result_up = await cloudinary.uploader.upload(req.file.path, { folder: "recipev2" });
+                post.photo = result_up.secure_url;
+                post.photo_id = result_up.public_id;
+              } else {
+                // Jika tidak ada gambar baru diupload, ambil gambar yang masih ada
+                post.photo = "https://i.ibb.co/M2JSRmW/noimage.png";
+                post.photo_id = "no_id";
+              }
+
+              const result = await postRegisterUser(post)
+              if(result){
+                return res.status(200).json({status:200, message:"Registration success!", data: result.rows[0]})
+              }
+        } catch (error) {
+            console.error("Error when register", error.message)
+            return res.status(500).json({status:500, message:"Registration failed!"})
+        }
+    },
+    loginUser: async (req, res) => {
+        try {
+            let {email, password} = req.body
+            console.log('login', email, password)
+  
+            if(!email || !password){
+                return res.status(404).json({status:404, message:"Email and password must be filled!"})
+            }
+  
+            let data = await checkEmailUser(email)
+  
+            if(!data.rows[0]){
+                return res.status(404).json({status:404, message:"Email not registered!"})
+            }
+  
+            let user = data.rows[0]
+
+            const isPasswordMatch = await verifyPassword(password, user.password)
+            if(isPasswordMatch){
+              delete user.password
+              const token = generateToken(user)
+              user.token = token
+              return res.status(200).json({status:200, message:"Login success!", data:user})
+            } else {
+              return res.status(404).json({status:200, message:"Data login is wrong!"})
+            }
+        } catch (error) {
+            console.error('Error when login', error.message)
+            return res.status(500).json({status:500, message:"Login failed!"})
+        }
+    },
+    getUserId: async (req, res) => {
+        try {
+            const {id} = req.params
+            const result = await getUserById(id)
+
+            if (result.rowCount > 0) {
+                return res.status(200).json({status:200, message:"Get user success!", data:result.rows[0]})
+            } else {
+                return res.status(404).json({status:404, message:"Data not found!"})
+            }
+        } catch (error) {
+            console.error('Error when get user by id', error.message)
+            return res.status(500).json({status:500, message:"Get user failed!"})
+        }
+    },
+    allUser: async (req, res) => {
+        try {
+            const result = await getUserAll()
+
+            if (result.rowCount > 0) {
+                return res.status(200).json({status:200, message:"Get user success!", data:result.rows})
+            } else {
+                return res.status(404).json({status:404, message:"Data not found!"})
+            }
+        } catch (error) {
+            console.error('Error when get all user', error.message)
+            return res.status(500).json({status:500, message:"Get user failed!"})
+        }
+    },
+    editUser: async (req, res) => {
+        try {
+            const {id} = req.payload
+            const {username, email, password} = req.body
+        
+            let data = await getUserById(id);
+            let result_up = null;
+        
+            if (req.file) {
+                // Jika req.file ada, upload gambar baru dan delete gambar lama
+                result_up = await cloudinary.uploader.upload(req.file.path, { folder: 'recipev2' });
+                await cloudinary.uploader.destroy(data.rows[0].photo_id);
+            }
+        
+            let post = {
+              id: id,
+              username: username || data.rows[0].username,
+              email: email || data.rows[0].email,
+              password: password ? (await hashPassword(password)) : data.rows[0].password
+            }
+        
+            if (result_up) {
+              // Jika gambar baru diupload, update properti image
+                post.photo = result_up.secure_url;
+                post.photo_id = result_up.public_id;
+            } else {
+                // Jika tidak ada gambar baru diupload, ambil gambar yang masih ada
+                post.photo = data.rows[0].photo;
+                post.photo_id = data.rows[0].photo_id;
+            }
+              
+            if(id != data.rows[0].id){
+                return res.status(404).json({status:404, message:"This is not your profile!"})
+            }
+        
+            const result = await putUserById(post);
+              if (result.rowCount > 0) {
+                  return res.status(200).json({status:200, message:"Update profile success!", data:result.rows[0]});
+              } else {
+                  return res.status(404).json({status:404, message:"Data not found!"});
+              }
+        } catch (error) {
+            console.error('Error when edit user', error.message);
+            return res.status(500).json({status:500, message:"Edit user failed!"});
+        }
+    },
+    deleteUser: async (req, res) => {
+        try {
+            const {id} = req.payload
+            const data = await getUserById(id)
+            if(data){
+                await cloudinary.uploader.destroy(data.rows[0].photo_id);
+            }
+            const result = await delUserById(id)
+            if(result){
+                return res.status(200).json({status:200, message:"Delete account success!", data:result.rows[0]})
+            } else {
+                return res.status(404).json({status:404, message:"Account id not found!"})
+            }
+        } catch (error) {
+            console.log('Error when delete user', error.message)
+            return res.status(500).json({status:500, message:"Delete account failed!"})
+        }
+    }
+}
+
+module.exports = userController
