@@ -1,4 +1,5 @@
 const {postRegisterUser, checkEmailUser, getUserById, getUserAll, putUserById, delUserById} = require('../model/userModel')
+const {getMenuByUser} = require('../model/menuModel')
 const { hashPassword, verifyPassword } = require('../middleware/bcrypt')
 const {generateToken} = require('../middleware/jwt')
 const cloudinary = require('../config/cloudinary')
@@ -150,8 +151,14 @@ const userController = {
         try {
             const {id} = req.payload
             const data = await getUserById(id)
+            const menu = await getMenuByUser(id)
+            const photo_menu_delete = menu.rows.map((item) => item.photo_id)
+
             if(data){
                 await cloudinary.uploader.destroy(data.rows[0].photo_id);
+                for (const photo_delete of photo_menu_delete){
+                    await cloudinary.uploader.destroy(photo_delete)
+                }
             }
             const result = await delUserById(id)
             if(result.rows[0]){
