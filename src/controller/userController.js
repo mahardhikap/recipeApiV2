@@ -1,8 +1,11 @@
-const {postRegisterUser, checkEmailUser, getUserById, getUserAll, putUserById, delUserById} = require('../model/userModel')
+const {postRegisterUser, checkEmailUser, getUserById, getUserAll, putUserById, delUserById, activatedAccount} = require('../model/userModel')
 const {getMenuByUser} = require('../model/menuModel')
 const { hashPassword, verifyPassword } = require('../middleware/bcrypt')
 const {generateToken} = require('../middleware/jwt')
 const cloudinary = require('../config/cloudinary')
+const { v4: uuidv4 } = require("uuid");
+const sendEmail = require('../middleware/verifEmail')
+require('dotenv').config()
 
 const userController = {
     registerUser: async (req, res) => {
@@ -15,11 +18,15 @@ const userController = {
             if(user.rows[0]){
                 return res.status(404).json({statuts:404, message:"Email has been registered!"})
             }
+
+            let uuid = uuidv4()
+
             let post = {
                 username: username,
                 email:email,
                 password:await hashPassword(password),
-                roles:roles || 'member'
+                roles:roles || 'member',
+                validate: uuid
             }
 
             if (req.file) {
@@ -34,7 +41,9 @@ const userController = {
 
               const result = await postRegisterUser(post)
               if(result.rows[0]){
-                return res.status(200).json({status:200, message:"Registration success!", data: result.rows[0]})
+                let resultSend = await sendEmail(email, username, `http://localhost:3000/verify/${uuid}`);
+                console.log('Send email verification', resultSend)
+                return res.status(200).json({status:200, message:"Registration success, check email for verification!", data: result.rows[0]})
               }
         } catch (error) {
             console.error("Error when register", error.message)
@@ -63,6 +72,9 @@ const userController = {
               delete user.password
               const token = generateToken(user)
               user.token = token
+              if (!user.is_active) {
+                return res.status(404).json({ status: 404, message: "Email has not been activated" });
+              }
               return res.status(200).json({status:200, message:"Login success!", data:user})
             } else {
               return res.status(404).json({status:200, message:"Data login is wrong!"})
@@ -170,7 +182,16 @@ const userController = {
             console.log('Error when delete user', error.message)
             return res.status(500).json({status:500, message:"Delete account failed!"})
         }
-    }
+    },
+    verify: async (req, res) => {
+        const { id } = req.params;
+        let result = await activatedAccount(id);
+        console.log('Running verif account', result.rowCount)
+        if (result.rowCount !== 0) {
+          return res.status(200).json({ status: 200, message: "Verify success you can login now" });
+        }
+        return res.status(404).json({ status: 404, message: "Verify failed try again" });
+    },
 }
 
 module.exports = userController

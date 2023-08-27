@@ -3,8 +3,8 @@ const pool = require('../config/db')
 const postRegisterUser = async (data) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: register user', data)
-        const {username, email, password, roles, photo, photo_id} = data
-        pool.query(`INSERT INTO register_user (username, email, password, roles, photo, photo_id) VALUES ('${username}', '${email}', '${password}', '${roles}', '${photo}', '${photo_id}') RETURNING *`, (err, results) => {
+        const {username, email, password, roles, photo, photo_id, validate} = data
+        pool.query(`INSERT INTO register_user (username, email, password, roles, photo, photo_id, validate) VALUES ('${username}', '${email}', '${password}', '${roles}', '${photo}', '${photo_id}', '${validate}') RETURNING *`, (err, results) => {
             if (!err){
                 resolve(results)
             } else {
@@ -80,11 +80,25 @@ const delUserById = async (id) => {
     })
 }
 
+const activatedAccount = async (uuid) => {
+    return new Promise((resolve, reject) => {
+        console.log("model activate account", uuid)
+        pool.query(`UPDATE register_user SET is_active = true WHERE validate = '${uuid}'`, (err, result) => {
+          if (!err) {
+            resolve(result);
+          } else {
+            reject(err);
+          }
+        })
+    })
+}
+
 module.exports = {
     postRegisterUser,
     checkEmailUser,
     getUserById,
     getUserAll,
     putUserById,
-    delUserById
+    delUserById,
+    activatedAccount
 }

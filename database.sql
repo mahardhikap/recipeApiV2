@@ -12,7 +12,9 @@ CREATE TABLE register_user (
     password VARCHAR NOT NULL,
     photo VARCHAR,
     roles VARCHAR,
-    photo_id VARCHAR
+    photo_id VARCHAR,
+    validate VARCHAR,
+    is_active BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE recipe (
