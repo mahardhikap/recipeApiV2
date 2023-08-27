@@ -8,6 +8,7 @@ const cors = require('./src/middleware/cors')
 require('dotenv').config()
 const user = require('./src/router/userRouter')
 const category = require('./src/router/categoryRouter')
+const menu = require('./src/router/menuRouter')
 
 app.use(bodyParser.json());
 app.use(
@@ -26,6 +27,7 @@ app.get('/', (req, res) => {
 
 app.use(user)
 app.use(category)
+app.use(menu)
 
 app.listen(port, ()=>{
     console.log(`App running on ${process.env.BASE_URL}`)
