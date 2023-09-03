@@ -77,7 +77,7 @@ const userController = {
               }
               return res.status(200).json({status:200, message:"Login success!", data:user})
             } else {
-              return res.status(404).json({status:200, message:"Data login is wrong!"})
+              return res.status(404).json({status:404, message:"Data login is wrong!"})
             }
         } catch (error) {
             console.error('Error when login', error.message)
