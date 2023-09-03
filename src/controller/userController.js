@@ -131,7 +131,11 @@ const userController = {
               id: id,
               username: username || data.rows[0].username,
               email: email || data.rows[0].email,
-              password: password ? (await hashPassword(password)) : data.rows[0].password
+              password: password || data.rows[0].password
+            }
+
+            if(password){
+                post.password = await hashPassword(password)
             }
         
             if (result_up) {
