@@ -30,7 +30,7 @@ const getMenuAll = async () => {
 const getMenuById = async (id) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: get menu by id', id)
-        pool.query(`SELECT recipe.id, recipe.title, recipe.photo AS photo_menu, recipe.ingredients, recipe.user_id, recipe.category_id, category.name AS category, register_user.username, register_user.photo AS photo_user, recipe.created_at FROM recipe JOIN category ON recipe.category_id = category.id JOIN register_user ON recipe.user_id = register_user.id WHERE recipe.id = ${id}`, (err, results) => {
+        pool.query(`SELECT recipe.id, recipe.title, recipe.photo_id, recipe.photo AS photo_menu, recipe.ingredients, recipe.user_id, recipe.category_id, category.name AS category, register_user.username, register_user.photo AS photo_user, recipe.created_at FROM recipe JOIN category ON recipe.category_id = category.id JOIN register_user ON recipe.user_id = register_user.id WHERE recipe.id = ${id}`, (err, results) => {
             if (!err) {
                 resolve(results)
             } else {

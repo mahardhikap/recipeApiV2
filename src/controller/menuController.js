@@ -133,17 +133,15 @@ const menuController = {
       const { id } = req.params;
       const { title, ingredients, category_id } = req.body;
 
-      let data = await getMenuById(id);
+      const data = await getMenuById(id);
       if (data.rowCount === 0) {
         return res
           .status(404)
           .json({ status: 404, message: 'Data not found!' });
       }
-
       let result_up = null;
 
       if (req.file) {
-        // Jika req.file ada, upload gambar baru dan delete gambar lama
         result_up = await cloudinary.uploader.upload(req.file.path, {
           folder: 'recipev2',
         });
@@ -171,20 +169,22 @@ const menuController = {
 
       if (user_id !== data.rows[0].user_id) {
         return res
-          .status(403)
-          .json({ status: 403, message: 'This is not your post!' });
+          .status(404)
+          .json({ status: 404, message: 'This is not your post!' });
       }
 
       const result = await putMenuById(post);
       if (result.rows[0]) {
-        return res.status(200).json({
-          status: 200,
-          message: 'Edit menu success!',
-          data: result.rows[0],
-        });
+        return res
+          .status(200)
+          .json({
+            status: 200,
+            message: 'Edit menu success!',
+            data: result.rows[0],
+          });
       }
     } catch (error) {
-      console.error('Error when updating menu', error.message);
+      console.error('Error when update menu', error.message);
       return res
         .status(500)
         .json({ status: 500, message: 'Update menu failed!' });
