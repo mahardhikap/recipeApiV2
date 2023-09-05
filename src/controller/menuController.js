@@ -133,7 +133,7 @@ const menuController = {
       const { id } = req.params;
       const { title, ingredients, category_id } = req.body;
 
-      const data = await getMenuById(id);
+      let data = await getMenuById(id);
       if (data.rowCount === 0) {
         return res
           .status(404)
