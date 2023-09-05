@@ -36,13 +36,11 @@ const menuController = {
 
       const result = await postMenu(post);
       if (result.rows[0]) {
-        return res
-          .status(200)
-          .json({
-            status: 200,
-            message: 'Post menu success!',
-            data: result.rows[0],
-          });
+        return res.status(200).json({
+          status: 200,
+          message: 'Post menu success!',
+          data: result.rows[0],
+        });
       }
     } catch (error) {
       console.error('Post menu error', error.message);
@@ -55,13 +53,11 @@ const menuController = {
     try {
       const result = await getMenuAll();
       if (result.rowCount > 0) {
-        return res
-          .status(200)
-          .json({
-            status: 200,
-            message: 'Get menu success!',
-            data: result.rows,
-          });
+        return res.status(200).json({
+          status: 200,
+          message: 'Get menu success!',
+          data: result.rows,
+        });
       } else {
         return res
           .status(404)
@@ -77,13 +73,11 @@ const menuController = {
       const { id } = req.params;
       const result = await getMenuById(id);
       if (result.rows[0]) {
-        return res
-          .status(200)
-          .json({
-            status: 200,
-            message: 'Get menu by id success!',
-            data: result.rows[0],
-          });
+        return res.status(200).json({
+          status: 200,
+          message: 'Get menu by id success!',
+          data: result.rows[0],
+        });
       } else {
         return res
           .status(404)
@@ -119,13 +113,11 @@ const menuController = {
       };
 
       if (result.rows.length > 0) {
-        return res
-          .status(200)
-          .json({
-            status: 200,
-            message: 'Get data success!',
-            data: { rows: result.rows, pages: pagination },
-          });
+        return res.status(200).json({
+          status: 200,
+          message: 'Get data success!',
+          data: { rows: result.rows, pages: pagination },
+        });
       } else {
         return res
           .status(404)
@@ -151,14 +143,11 @@ const menuController = {
       let result_up = null;
 
       if (req.file) {
-        // Upload gambar baru jika ada
+        // Jika req.file ada, upload gambar baru dan delete gambar lama
         result_up = await cloudinary.uploader.upload(req.file.path, {
           folder: 'recipev2',
         });
-        if (data.rows[0].photo_id) {
-          // Hapus gambar lama jika ada
-          await cloudinary.uploader.destroy(data.rows[0].photo_id);
-        }
+        await cloudinary.uploader.destroy(data.rows[0].photo_id);
       }
 
       let post = {
@@ -188,13 +177,11 @@ const menuController = {
 
       const result = await putMenuById(post);
       if (result.rows[0]) {
-        return res
-          .status(200)
-          .json({
-            status: 200,
-            message: 'Edit menu success!',
-            data: result.rows[0],
-          });
+        return res.status(200).json({
+          status: 200,
+          message: 'Edit menu success!',
+          data: result.rows[0],
+        });
       }
     } catch (error) {
       console.error('Error when updating menu', error.message);
@@ -227,13 +214,11 @@ const menuController = {
       };
 
       if (result.rows.length > 0) {
-        return res
-          .status(200)
-          .json({
-            status: 200,
-            message: 'Get data success!',
-            data: { rows: result.rows, pages: pagination },
-          });
+        return res.status(200).json({
+          status: 200,
+          message: 'Get data success!',
+          data: { rows: result.rows, pages: pagination },
+        });
       } else {
         return res
           .status(404)
@@ -260,13 +245,11 @@ const menuController = {
 
       const result = await delMenuById(id);
       if (result.rows[0]) {
-        return res
-          .status(200)
-          .json({
-            status: 200,
-            message: 'Delete menu success!',
-            data: result.rows[0],
-          });
+        return res.status(200).json({
+          status: 200,
+          message: 'Delete menu success!',
+          data: result.rows[0],
+        });
       } else {
         return res
           .status(404)
