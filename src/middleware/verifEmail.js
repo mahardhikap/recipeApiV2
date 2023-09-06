@@ -10,12 +10,12 @@ let transporter = nodemailer.createTransport({
     },
 });
 
-const sendEmail = async (email_client, name, url) => {
+const sendEmail = async (email_client, name, url, code) => {
     let mailOption = {
         from: `"Recipe App" <${process.env.EMAIL_NAME}>`,
         to: email_client,
         subject: `Activation email for ${name}`,
-        html: `Hello <b>${name}</b>, here is link to activating the account <i><a href="${url}">click here</a><i>`,
+        html: `Hello <b>${name}</b>, here is code ${code} to activate account. Or you can click this link to activating the account <i><a href="${url}">click here</a><i>`,
     };
 
     try {
