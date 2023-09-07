@@ -8,6 +8,10 @@ const {
   getSearchSortMenuByUser,
   delMenuById,
 } = require('../model/menuModel');
+
+const {
+  getUserById
+} = require('../model/userModel')
 const cloudinary = require('../config/cloudinary');
 
 const menuController = {
@@ -15,6 +19,12 @@ const menuController = {
     try {
       const { title, ingredients, category_id } = req.body;
       const user_id = req.payload.id;
+
+      const userExist = await getUserById(user_id)
+
+      if(!userExist.rows[0]){
+        return res.status(404).json({status:404, message:'ID Token invalid or missing! Not match any user in database.'})
+      }
 
       let post = {
         title: title,

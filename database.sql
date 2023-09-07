@@ -29,3 +29,12 @@ CREATE TABLE recipe (
     FOREIGN KEY (category_id) REFERENCES category(id),
     FOREIGN KEY (user_id) REFERENCES register_user(id) ON DELETE CASCADE
 );
+
+CREATE TABLE liked (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (user_id) REFERENCES register_user(id),
+    FOREIGN KEY (recipe_id) REFERENCES recipe(id)
+);
