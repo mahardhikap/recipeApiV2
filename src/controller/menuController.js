@@ -117,7 +117,7 @@ const menuController = {
       const resultTotal = await getMenuAll();
       const result = await getSearchSortMenu(post);
       let pagination = {
-        totalPage: Math.ceil(result.count / limiter),
+        totalPage: Math.ceil(result.rowCount / limiter),
         totalData: parseInt(result.count),
         pageNow: page,
       };
@@ -218,7 +218,7 @@ const menuController = {
       const result = await getSearchSortMenuByUser(post);
 
       let pagination = {
-        totalPage: Math.ceil(result.count / limiter),
+        totalPage: Math.ceil(resultTotal.rowCount / limiter),
         totalData: parseInt(result.count),
         pageNow: page,
       };
