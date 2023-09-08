@@ -7,6 +7,7 @@ const {
   getMenuByUser,
   getSearchSortMenuByUser,
   delMenuById,
+  getMenuCount
 } = require('../model/menuModel');
 
 const {
@@ -114,11 +115,12 @@ const menuController = {
         searchby: searchby || 'title',
         search: search,
       };
-      const resultTotal = await getMenuAll();
       const result = await getSearchSortMenu(post);
+      const resultCount = await getMenuCount(post)
+      // return console.log('ini result total',resultCount)
       let pagination = {
-        totalPage: Math.ceil(resultTotal.rowCount / limiter),
-        totalData: parseInt(result.count),
+        totalPage: Math.ceil(resultCount.rows[0].count / limiter),
+        totalData: parseInt(result.rowCount),
         pageNow: page,
       };
 
@@ -219,7 +221,7 @@ const menuController = {
 
       let pagination = {
         totalPage: Math.ceil(resultTotal.rowCount / limiter),
-        totalData: parseInt(result.count),
+        totalData: parseInt(result.rowCount),
         pageNow: page,
       };
 
