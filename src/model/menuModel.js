@@ -48,7 +48,7 @@ const getSearchSortMenu = async (data) => {
         pool.query(`SELECT recipe.id, recipe.title, recipe.photo AS photo_menu, recipe.ingredients, category.name AS category, register_user.username, register_user.photo AS photo_user, recipe.created_at FROM recipe JOIN category ON recipe.category_id = category.id JOIN register_user ON recipe.user_id = register_user.id WHERE ${searchby} ILIKE '%${search}%' ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`, (err, results) => {
             if (!err) {
                 const data = {
-                  count: results.length, // Jumlah total data (total row count)
+                  count: results.rowCount, // Jumlah total data (total row count)
                   rows: results.rows, // Data hasil query
                 };
                 resolve(data);
@@ -93,7 +93,7 @@ const getSearchSortMenuByUser = async (data) => {
         pool.query(`SELECT recipe.id, recipe.title, recipe.photo AS photo_menu, recipe.ingredients, category.name AS category, register_user.username, register_user.photo AS photo_user, recipe.created_at FROM recipe JOIN category ON recipe.category_id = category.id JOIN register_user ON recipe.user_id = register_user.id WHERE user_id = ${user_id} ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`, (err, results) => {
             if (!err) {
                 const data = {
-                  count: results.length, // Jumlah total data (total row count)
+                  count: results.rowCount, // Jumlah total data (total row count)
                   rows: results.rows, // Data hasil query
                 };
                 resolve(data);
