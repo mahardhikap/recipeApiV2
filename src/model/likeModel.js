@@ -44,7 +44,7 @@ const getMyLikeMenu = async (id) => {
 const delMyLikeMenu = async (id) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: delete my like menu')
-        pool.query(`DELETE FROM liked WHERE id = ${id} RETURNING *`, (err, results) => {
+        pool.query(`DELETE FROM liked WHERE recipe_id = ${id} RETURNING *`, (err, results) => {
             if (!err) {
                 resolve(results)
             } else {

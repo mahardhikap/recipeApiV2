@@ -22,7 +22,12 @@ const likeController = {
       // return console.log('checliked', recipe_id, checkLiked)
   
       if (checkLiked.rows[0]) {
-        return res.status(404).json({ status: 404, message: 'Already liked!' });
+        const result = await delMyLikeMenu(id)
+        return res.status(200).json({
+          status: 200,
+          message: 'Delete like menu success!',
+          data: result.rows[0],
+        });
       }
       
       let post = {
@@ -67,28 +72,28 @@ const likeController = {
         .json({ status: 500, message: 'Get my like menu failed!' });
     }
   },
-  deleteLike: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const result = await delMyLikeMenu(id);
-      if (result.rows[0]) {
-        return res
-          .status(200)
-          .json({
-            status: 200,
-            message: 'Delete like success!',
-            data: result.rows[0],
-          });
-      } else {
-        return res.status(404).json({ status: 404, message: 'Like not found' });
-      }
-    } catch (error) {
-      console.log('Error when delete user', error.message);
-      return res
-        .status(500)
-        .json({ status: 500, message: 'Delete like failed!' });
-    }
-  },
+//   deleteLike: async (req, res) => {
+//     try {
+//       const { id } = req.params;
+//       const result = await delMyLikeMenu(id);
+//       if (result.rows[0]) {
+//         return res
+//           .status(200)
+//           .json({
+//             status: 200,
+//             message: 'Delete like success!',
+//             data: result.rows[0],
+//           });
+//       } else {
+//         return res.status(404).json({ status: 404, message: 'Like not found' });
+//       }
+//     } catch (error) {
+//       console.log('Error when delete user', error.message);
+//       return res
+//         .status(500)
+//         .json({ status: 500, message: 'Delete like failed!' });
+//     }
+//   },
 };
 
 module.exports = likeController;
