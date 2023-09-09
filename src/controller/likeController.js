@@ -8,17 +8,16 @@ const {
 const likeController = {
   likeMenu: async (req, res) => {
     try {
-      const {recipe_id} = req.body;
+      const {id} = req.params;
+      // let id = recipe_id
+      // return console.log('cek recipe id', id)
 
-
-      // return console.log('cek recipe id', recipe_id)
-
-      if (!recipe_id) {
+      if (!id) {
         return res.status(400).json({ status: 400, message: 'recipe_id is required!' });
       }
 
       const user_id = req.payload.id;
-      let checkLiked = await getLikeById(recipe_id);
+      let checkLiked = await getLikeById(id);
 
       // return console.log('checliked', recipe_id, checkLiked)
   
@@ -27,7 +26,7 @@ const likeController = {
       }
       
       let post = {
-        recipe_id: recipe_id,
+        recipe_id: id,
         user_id
       };
 
