@@ -17,7 +17,7 @@ const likeController = {
       }
       let post = {
         recipe_id: recipe_id,
-        user_id,
+        user_id: user_id,
       };
 
       const result = await postLike(post);
