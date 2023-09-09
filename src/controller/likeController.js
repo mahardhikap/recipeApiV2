@@ -9,12 +9,18 @@ const likeController = {
   likeMenu: async (req, res) => {
     try {
       const { recipe_id } = req.body;
+
+      if (!recipe_id) {
+        return res.status(400).json({ status: 400, message: 'recipe_id is required!' });
+      }
+
       const user_id = req.payload.id;
-      let checkLiked = await getLikeById(parseInt(recipe_id));
-      //   return console.log(checkLiked.rows[0])
+      let checkLiked = await getLikeById(recipe_id);
+  
       if (checkLiked.rows[0]) {
         return res.status(404).json({ status: 404, message: 'Already liked!' });
       }
+      
       let post = {
         recipe_id: recipe_id,
         user_id
