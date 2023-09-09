@@ -10,7 +10,7 @@ const likeController = {
     try {
       const { recipe_id } = req.body;
       const user_id = req.payload.id;
-      let checkLiked = await getLikeById(recipe_id);
+      let checkLiked = await getLikeById(parseInt(recipe_id));
       //   return console.log(checkLiked.rows[0])
       if (checkLiked.rows[0]) {
         return res.status(404).json({ status: 404, message: 'Already liked!' });
