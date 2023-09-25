@@ -31,7 +31,7 @@ const getLikeById = async (id) => {
 const getMyLikeMenu = async (id) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: get my like menu', id)
-        pool.query(`SELECT recipe.id AS recipe_id, liked.id AS liked_id, recipe.title, recipe.photo_id, recipe.photo AS photo_menu, recipe.ingredients, category.name AS category, liked.user_id AS liked_by, register_user.username, register_user.photo AS photo_user, liked.created_at FROM liked JOIN recipe ON liked.recipe_id = recipe.id JOIN register_user ON liked.user_id = register_user.id JOIN category ON recipe.category_id = category.id WHERE liked.user_id = ${id}`, (err, results) => {
+        pool.query(`SELECT recipe.id AS recipe_id, liked.id AS liked_id, recipe.title, recipe.photo_id, recipe.user_id, recipe.photo AS photo_menu, recipe.ingredients, category.name AS category, liked.user_id AS liked_by, register_user.username, register_user.photo AS photo_user, liked.created_at FROM liked JOIN recipe ON liked.recipe_id = recipe.id JOIN register_user ON recipe.user_id = register_user.id JOIN category ON recipe.category_id = category.id WHERE liked.user_id = ${id}`, (err, results) => {
             if (!err){
                 resolve(results)
             } else {
