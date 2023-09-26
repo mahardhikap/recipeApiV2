@@ -10,6 +10,7 @@ const user = require('./src/router/userRouter')
 const category = require('./src/router/categoryRouter')
 const menu = require('./src/router/menuRouter')
 const like = require('./src/router/likeRouter')
+const xss = require('xss-clean')
 
 app.use(bodyParser.json());
 app.use(
@@ -21,6 +22,7 @@ app.use(
 app.use(morgan)
 app.use(cors)
 app.use(helmet)
+app.use(xss())
 
 app.get('/', (req, res) => {
     res.json({ info: 'Recipe API Version 2', author: 'Mahardhika Putra Pratama'})

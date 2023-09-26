@@ -1,0 +1,511 @@
+{
+	"info": {
+		"_postman_id": "baa0b2ac-1971-4bf4-b1f2-606e3c4ee7be",
+		"name": "Recipe V2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "26438294"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "test",
+									"description": "your username",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test@gmail.com",
+									"description": "your email, must valid email",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "test",
+									"description": "your password",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://localhost:3000/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "test@gmail.com",
+									"description": "your valid email",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "test",
+									"description": "your valid password",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://localhost:3000/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User (id)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/user/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User (all)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/user"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJNaXN0ZXJpIiwiZW1haWwiOiJtaXN0ZXJpY29taWNlckBnbWFpbC5jb20iLCJwaG90byI6Imh0dHBzOi8vaS5pYmIuY28vTTJKU1JtVy9ub2ltYWdlLnBuZyIsInJvbGVzIjoibWVtYmVyIiwicGhvdG9faWQiOiJub19pZCIsInZhbGlkYXRlIjoiOWQ0NjY2MjEtN2Y1Ny00YjNhLTgwYzQtYTQ2YjJlZjkzMWEyIiwiaXNfYWN0aXZlIjp0cnVlLCJpYXQiOjE2OTM3NDk4OTh9._ndR1OsxtKZ_rvLrtddj7hGLoPGJrUL0DsNoMuiBv5M"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "Test Ganti Nama",
+									"description": "if you want to change username",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test@gmail.com",
+									"description": "if you want to change email",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "test23",
+									"description": "if you want to change password",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"description": "if you want upload/change photo profile",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": "https://fluffy-ox-lapel.cyclic.app/user"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJUYXRhIiwiZW1haWwiOiJ0YXRhQGdtYWlsLmNvbSIsInBob3RvIjoiaHR0cHM6Ly9pLmliYi5jby9NMkpTUm1XL25vaW1hZ2UucG5nIiwicm9sZXMiOiJtZW1iZXIiLCJwaG90b19pZCI6Im5vX2lkIiwiaWF0IjoxNjkzMTAwMDAzfQ.FKVg8Da_PTLcr75QiIZ3wRz0jMvsHU1K8FgrfKFxiP4"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3000/user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Add Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Dessert",
+									"description": "add category menu",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://localhost:3000/category"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category (all)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/category"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category (id)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "",
+									"description": "change/update category name",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://localhost:3000/category/10"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Menu",
+			"item": [
+				{
+					"name": "Add Menu",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEZXYgVGVzdGVyIiwiZW1haWwiOiJiYWZpbWVqNDA1QG5pY2tvbGlzLmNvbSIsInBob3RvIjoiaHR0cHM6Ly9pLmliYi5jby9NMkpTUm1XL25vaW1hZ2UucG5nIiwicm9sZXMiOiJtZW1iZXIiLCJwaG90b19pZCI6Im5vX2lkIiwidmFsaWRhdGUiOiJlYWYxNDU2MS04YTJlLTQxNmItYTg5NC04OGFmMzllNDBkNjgiLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTY5NDA2MTg1Mn0.4aGK3Kf1IM4lUKNWswN9HabWyhlkVx2jT04GW12MR2I"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Tes Menu 4",
+									"description": "post title menu",
+									"type": "text"
+								},
+								{
+									"key": "ingredients",
+									"value": "Ikan, Bumbu, Nasi",
+									"description": "post ingredients menu",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "2",
+									"description": "1. Appetizer, 2. Main Course, 3. Dessert",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"description": "post photo menu",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": "http://localhost:3000/menu"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Menu (all)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/menu"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Menu (id)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{local}}/menu/8"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Sort Menu",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:3000/menu/page/sort?searchby=title&search=menu&sortby=title&sort=DESC&page=1&limit=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"menu",
+								"page",
+								"sort"
+							],
+							"query": [
+								{
+									"key": "searchby",
+									"value": "title",
+									"description": "filter by search (title, category, ingredients, created_at)"
+								},
+								{
+									"key": "search",
+									"value": "menu",
+									"description": "what words you want to search"
+								},
+								{
+									"key": "sortby",
+									"value": "title",
+									"description": "filter sort"
+								},
+								{
+									"key": "sort",
+									"value": "DESC",
+									"description": "ascending (ASC) or descending (DESC)"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "where page"
+								},
+								{
+									"key": "limit",
+									"value": "2",
+									"description": "what limit data show in one page"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Menu",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJNYWhhcmRoaWthIiwiZW1haWwiOiJtaXN0ZXJpY29taWNlckBnbWFpbC5jb20iLCJwaG90byI6Imh0dHBzOi8vcmVzLmNsb3VkaW5hcnkuY29tL2R4YW8wNmFwci9pbWFnZS91cGxvYWQvdjE2OTM3NTAxNDYvcmVjaXBldjIvZ2gybHhudzBza3RybHVqbXJlaW8uanBnIiwicm9sZXMiOiJtZW1iZXIiLCJwaG90b19pZCI6InJlY2lwZXYyL2doMmx4bncwc2t0cmx1am1yZWlvIiwidmFsaWRhdGUiOiI5ZDQ2NjYyMS03ZjU3LTRiM2EtODBjNC1hNDZiMmVmOTMxYTIiLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTY5MzkzNDk5NH0.W6BhKd6PPJWuheL03g-rdj36-KPKdLJSSTzpy3T8O8c"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Resep Masak Ikan",
+									"description": "edit title menu",
+									"type": "text"
+								},
+								{
+									"key": "ingredients",
+									"value": "",
+									"description": "edit ingredients menu",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "2",
+									"description": "1. Appetizer, 2. Main Course, 3. Dessert",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"description": "edit photo menu",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": "https://fluffy-ox-lapel.cyclic.app/menu/42"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Sort Menu User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEZXYgVGVzdGVyIiwiZW1haWwiOiJiYWZpbWVqNDA1QG5pY2tvbGlzLmNvbSIsInBob3RvIjoiaHR0cHM6Ly9pLmliYi5jby9NMkpTUm1XL25vaW1hZ2UucG5nIiwicm9sZXMiOiJtZW1iZXIiLCJwaG90b19pZCI6Im5vX2lkIiwidmFsaWRhdGUiOiJlYWYxNDU2MS04YTJlLTQxNmItYTg5NC04OGFmMzllNDBkNjgiLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTY5NDE4MTIzN30.RfCB514fE8c7jI6Eh4G_0U02kF0QZvIzbQNFNIR5Zcw"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}/user/page/sort?sortby=created_at&sort=DESC&page=1&limit=3",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"user",
+								"page",
+								"sort"
+							],
+							"query": [
+								{
+									"key": "sortby",
+									"value": "created_at",
+									"description": "sort menu posted by user"
+								},
+								{
+									"key": "sort",
+									"value": "DESC",
+									"description": "descending (DESC) or ascending (ASC)"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "where page will show"
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"description": "what limit data show in one page"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Menu",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJNYWhhcmRoaWthIiwiZW1haWwiOiJtYWhhcmRoaWthQGdtYWlsLmNvbSIsInBob3RvIjoiaHR0cHM6Ly9yZXMuY2xvdWRpbmFyeS5jb20vZHhhbzA2YXByL2ltYWdlL3VwbG9hZC92MTY5MzA5MjQ3Ni9yZWNpcGV2Mi95bTNkanphZDVtNm0wNXN2Y3M4cS5wbmciLCJyb2xlcyI6Im1lbWJlciIsInBob3RvX2lkIjoicmVjaXBldjIveW0zZGp6YWQ1bTZtMDVzdmNzOHEiLCJpYXQiOjE2OTMwOTk0NjN9._EDXRqoem6DmGk_v2cpOFs7OfySXzGnh2Ci0dkpkV0M"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3000/menu/2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Like",
+			"item": [
+				{
+					"name": "Like Menu",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsInBob3RvIjoiaHR0cHM6Ly9pLmliYi5jby9NMkpTUm1XL25vaW1hZ2UucG5nIiwicm9sZXMiOiJtZW1iZXIiLCJwaG90b19pZCI6Im5vX2lkIiwidmFsaWRhdGUiOiIzMzVlMjM2My00M2Y5LTQzZDgtYmE0YS05ZDhjYzdkOWM2NzkiLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTY5NDMyOTAxNn0.bb604y5dVsmbl29O28NcLZSqIb6b5NP4sJOWui4a9GU"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "recipe_id",
+									"value": "4",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "http://localhost:3000/like/4"
+					},
+					"response": []
+				},
+				{
+					"name": "My Like Menu",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsInBob3RvIjoiaHR0cHM6Ly9pLmliYi5jby9NMkpTUm1XL25vaW1hZ2UucG5nIiwicm9sZXMiOiJtZW1iZXIiLCJwaG90b19pZCI6Im5vX2lkIiwidmFsaWRhdGUiOiIzMzVlMjM2My00M2Y5LTQzZDgtYmE0YS05ZDhjYzdkOWM2NzkiLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTY5NDMyOTAxNn0.bb604y5dVsmbl29O28NcLZSqIb6b5NP4sJOWui4a9GU"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/like"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Like",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEZXYgVGVzdGVyIiwiZW1haWwiOiJiYWZpbWVqNDA1QG5pY2tvbGlzLmNvbSIsInBob3RvIjoiaHR0cHM6Ly9pLmliYi5jby9NMkpTUm1XL25vaW1hZ2UucG5nIiwicm9sZXMiOiJtZW1iZXIiLCJwaG90b19pZCI6Im5vX2lkIiwidmFsaWRhdGUiOiJlYWYxNDU2MS04YTJlLTQxNmItYTg5NC04OGFmMzllNDBkNjgiLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTY5NDI3MzM1M30.P9YvARLFtaQpBv7-9t85EfIoqAwnIpswz3sWB2iBCy8"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3000/like/9"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "local",
+			"value": "http://localhost:3000"
+		}
+	]
+}
