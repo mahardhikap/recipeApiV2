@@ -20,13 +20,19 @@ const postMenu = async (data) => {
 const getMenuAll = async () => {
   return new Promise((resolve, reject) => {
     console.log('Model: get recipe all');
-    pool.query(`SELECT * FROM recipe`, (err, results) => {
-      if (!err) {
-        resolve(results);
-      } else {
-        reject(err);
+    pool.query(
+      `SELECT recipe.id, recipe.title, recipe.photo, recipe.ingredients, recipe.category_id, recipe.user_id, recipe.photo_id, recipe.created_at, COALESCE(COUNT(liked.id), 0) AS like_count
+    FROM recipe
+    LEFT JOIN liked ON recipe.id = liked.recipe_id
+    GROUP BY recipe.id, recipe.title, recipe.photo, recipe.ingredients, recipe.category_id, recipe.user_id, recipe.photo_id, recipe.created_at`,
+      (err, results) => {
+        if (!err) {
+          resolve(results);
+        } else {
+          reject(err);
+        }
       }
-    });
+    );
   });
 };
 
@@ -34,7 +40,7 @@ const getMenuById = async (id) => {
   return new Promise((resolve, reject) => {
     console.log('Model: get menu by id', id);
     pool.query(
-      `SELECT recipe.id, recipe.title, recipe.photo_id, recipe.photo AS photo_menu, recipe.ingredients, recipe.user_id, recipe.category_id, category.name AS category, register_user.username, register_user.photo AS photo_user, recipe.created_at FROM recipe JOIN category ON recipe.category_id = category.id JOIN register_user ON recipe.user_id = register_user.id WHERE recipe.id = ${id}`,
+      `SELECT recipe.id, recipe.title, recipe.photo_id, recipe.photo AS photo_menu, recipe.ingredients, recipe.user_id, recipe.category_id, category.name AS category, register_user.username, register_user.photo AS photo_user, recipe.created_at, COALESCE(COUNT(liked.id), 0) AS like_count FROM recipe JOIN category ON recipe.category_id = category.id JOIN register_user ON recipe.user_id = register_user.id LEFT JOIN liked ON recipe.id = liked.recipe_id WHERE recipe.id = ${id} GROUP BY recipe.id, recipe.title, recipe.photo_id, recipe.photo, recipe.ingredients, recipe.user_id, recipe.category_id, category.name, register_user.username, register_user.photo, recipe.created_at`,
       (err, results) => {
         if (!err) {
           resolve(results);
@@ -51,7 +57,7 @@ const getSearchSortMenu = async (data) => {
     console.log('Model: search and sort menu', data);
     const { searchby, search, sortby, sort, offset, limit } = data;
     pool.query(
-      `SELECT recipe.id, recipe.title, recipe.photo AS photo_menu, recipe.ingredients, category.name AS category, register_user.username, register_user.photo AS photo_user, recipe.created_at FROM recipe JOIN category ON recipe.category_id = category.id JOIN register_user ON recipe.user_id = register_user.id WHERE ${searchby} ILIKE '%${search}%' ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`,
+      `SELECT recipe.id, recipe.title, recipe.photo AS photo_menu, recipe.ingredients, category.name AS category, register_user.username, register_user.photo AS photo_user, recipe.created_at, COALESCE(COUNT(liked.id), 0) AS like_count FROM recipe JOIN category ON recipe.category_id = category.id JOIN register_user ON recipe.user_id = register_user.id LEFT JOIN liked ON recipe.id = liked.recipe_id WHERE ${searchby} ILIKE '%${search}%' GROUP BY recipe.id, recipe.title, recipe.photo, recipe.ingredients, category.name, register_user.username, register_user.photo, recipe.created_at ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`,
       (err, results) => {
         if (!err) {
           resolve(results);
@@ -64,21 +70,21 @@ const getSearchSortMenu = async (data) => {
 };
 
 const getMenuCount = async (data) => {
-    return new Promise((resolve, reject) => {
-      console.log('Model: search and sort menu', data);
-      const { searchby, search} = data;
-      pool.query(
-        `SELECT COUNT(*) FROM recipe JOIN category ON recipe.category_id = category.id JOIN register_user ON recipe.user_id = register_user.id WHERE ${searchby} ILIKE '%${search}%'`,
-        (err, result) => {
-          if (!err) {
-            resolve(result);
-          } else {
-            reject(err);
-          }
+  return new Promise((resolve, reject) => {
+    console.log('Model: search and sort menu', data);
+    const { searchby, search } = data;
+    pool.query(
+      `SELECT COUNT(*) FROM recipe JOIN category ON recipe.category_id = category.id JOIN register_user ON recipe.user_id = register_user.id WHERE ${searchby} ILIKE '%${search}%'`,
+      (err, result) => {
+        if (!err) {
+          resolve(result);
+        } else {
+          reject(err);
         }
-      );
-    });
-  };
+      }
+    );
+  });
+};
 
 const putMenuById = async (post) => {
   return new Promise((resolve, reject) => {
@@ -118,7 +124,7 @@ const getSearchSortMenuByUser = async (data) => {
     console.log('Model: search and sort menu by user', data);
     const { sortby, sort, offset, limit, user_id } = data;
     pool.query(
-      `SELECT recipe.id, recipe.title, recipe.photo AS photo_menu, recipe.ingredients, category.name AS category, register_user.username, register_user.photo AS photo_user, recipe.created_at FROM recipe JOIN category ON recipe.category_id = category.id JOIN register_user ON recipe.user_id = register_user.id WHERE user_id = ${user_id} ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`,
+      `SELECT recipe.id, recipe.title, recipe.photo AS photo_menu, recipe.ingredients, category.name AS category, register_user.username, register_user.photo AS photo_user, recipe.created_at, COALESCE(COUNT(liked.id), 0) AS like_count FROM recipe JOIN category ON recipe.category_id = category.id JOIN register_user ON recipe.user_id = register_user.id LEFT JOIN liked ON recipe.id = liked.recipe_id WHERE recipe.user_id = ${user_id} GROUP BY recipe.id, recipe.title, recipe.photo, recipe.ingredients, category.name, register_user.username, register_user.photo, recipe.created_at ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`,
       (err, results) => {
         if (!err) {
           resolve(results);
@@ -155,5 +161,5 @@ module.exports = {
   getMenuByUser,
   getSearchSortMenuByUser,
   delMenuById,
-  getMenuCount
+  getMenuCount,
 };
