@@ -30,6 +30,9 @@ CREATE TABLE recipe (
     FOREIGN KEY (user_id) REFERENCES register_user(id) ON DELETE CASCADE
 );
 
+ALTER TABLE recipe
+ADD COLUMN like_count INT DEFAULT 0;
+
 CREATE TABLE liked (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
@@ -38,3 +41,30 @@ CREATE TABLE liked (
     FOREIGN KEY (user_id) REFERENCES register_user(id),
     FOREIGN KEY (recipe_id) REFERENCES recipe(id)
 );
+CREATE TABLE bookmarked (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (user_id) REFERENCES register_user(id),
+    FOREIGN KEY (recipe_id) REFERENCES recipe(id)
+);
+
+CREATE TABLE comment (
+    id SERIAL PRIMARY KEY,
+    text TEXT NOT NULL,
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (user_id) REFERENCES register_user(id),
+    FOREIGN KEY (recipe_id) REFERENCES recipe(id)
+);
+
+--CHECK AMOUNT LIKE--
+SELECT recipe.id AS recipe_id, 
+       recipe.title AS recipe_title, 
+       COUNT(liked.id) AS like_count
+FROM recipe
+LEFT JOIN liked ON recipe.id = liked.recipe_id
+WHERE recipe.id = 4
+GROUP BY recipe.id, recipe.title;

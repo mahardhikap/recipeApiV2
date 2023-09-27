@@ -28,6 +28,19 @@ const getLikeById = async (id) => {
     })
 }
 
+const getLikeByUser = async (id) => {
+    return new Promise((resolve, reject)=>{
+        console.log('Model: get like by user', id)
+        pool.query(`SELECT * FROM liked WHERE user_id = ${id}`, (err, results) => {
+            if (!err){
+                resolve(results)
+            } else {
+                reject(err)
+            }
+        })
+    })
+}
+
 const getMyLikeMenu = async (id) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: get my like menu', id)
@@ -41,11 +54,24 @@ const getMyLikeMenu = async (id) => {
     })
 }
 
-const delMyLikeMenu = async (id) => {
+const delMyLikeMenu = async (user_id, id) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: delete my like menu')
-        pool.query(`DELETE FROM liked WHERE recipe_id = ${id} RETURNING *`, (err, results) => {
+        pool.query(`DELETE FROM liked WHERE user_id = ${user_id} AND recipe_id = ${id} RETURNING *`, (err, results) => {
             if (!err) {
+                resolve(results)
+            } else {
+                reject(err)
+            }
+        })
+    })
+}
+
+const countLike = async (id) => {
+    return new Promise((resolve, reject)=>{
+        console.log('Model: count like menu', id)
+        pool.query(`SELECT recipe.id AS recipe_id, recipe.title AS recipe_title, COUNT(liked.id) AS like_count FROM recipe LEFT JOIN liked ON recipe.id = liked.recipe_id WHERE recipe.id = ${id} GROUP BY recipe.id, recipe.title`, (err, results) => {
+            if (!err){
                 resolve(results)
             } else {
                 reject(err)
@@ -57,6 +83,8 @@ const delMyLikeMenu = async (id) => {
 module.exports = {
     postLike,
     getLikeById,
+    getLikeByUser,
     getMyLikeMenu,
-    delMyLikeMenu
+    delMyLikeMenu,
+    countLike
 }
