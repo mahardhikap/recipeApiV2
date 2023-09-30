@@ -154,7 +154,10 @@ const userController = {
         
             const result = await putUserById(post);
               if (result.rows[0]) {
-                  return res.status(200).json({status:200, message:"Update profile success!", data:result.rows[0]});
+                const updatedUserData = { ...data.rows[0], ...post };
+                const token = generateToken(updatedUserData);
+                updatedUserData.token = token;
+                return res.status(200).json({status:200, message:"Update profile success!", data:updatedUserData});
               } else {
                   return res.status(404).json({status:404, message:"Data not found!"});
               }
