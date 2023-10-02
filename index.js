@@ -11,6 +11,7 @@ const category = require('./src/router/categoryRouter')
 const menu = require('./src/router/menuRouter')
 const like = require('./src/router/likeRouter')
 const bookmark = require('./src/router/bookmarkedRouter')
+const comment = require('./src/router/commentRouter')
 const xss = require('xss-clean')
 
 app.use(bodyParser.json());
@@ -34,6 +35,7 @@ app.use(category)
 app.use(menu)
 app.use(like)
 app.use(bookmark)
+app.use(comment)
 
 app.listen(port, ()=>{
     console.log(`App running on ${process.env.BASE_URL}`)
