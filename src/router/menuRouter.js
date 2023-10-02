@@ -8,9 +8,9 @@ const router = app.Router()
 router.post('/menu', protect, upload.single('photo'), addMenu)
 router.get('/menu', getMenu)
 router.get('/menu/:id', getMenuId)
-router.get('/menu/page/sort', searchSortMenu)
+router.get('/sort-menu', searchSortMenu)
 router.put('/menu/:id', protect, upload.single('photo'), editMenu)
-router.get('/user/page/sort', protect, searchSortMenuUser)
+router.get('/menu-user', protect, searchSortMenuUser)
 router.delete('/menu/:id', protect, deleteMenu)
 
 module.exports = router
