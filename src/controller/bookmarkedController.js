@@ -24,14 +24,14 @@ const {
         const user_id = req.payload.id;
         let checkMenu = await getMenuById(id)
         let checkUserBookmarked = await getBookmarkByUser(user_id);
-        let checkMenuBookmarked = await getBookmarkById(id)
+        let checkMenuBookmarked = await getBookmarkById(user_id, id)
         // return console.log('bookmarked', chekUserBookmarked)
   
         if(!checkMenu.rows[0]){
           return res.status(404).json({status:404, message:'menu not found!'})
         }
     
-        if (checkUserBookmarked.rows[0] && checkMenuBookmarked.rows[0]) {
+        if (checkMenuBookmarked.rows[0]) {
           await delMyBookmarkMenu(user_id, id)
           return res.status(200).json({
             status: 200,

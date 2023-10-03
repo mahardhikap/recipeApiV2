@@ -15,10 +15,10 @@ const postLike = async (data) => {
 }
 
 
-const getLikeById = async (id) => {
+const getLikeById = async (user_id, id) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: get like by id', id)
-        pool.query(`SELECT * FROM liked WHERE recipe_id = ${id}`, (err, results) => {
+        pool.query(`SELECT * FROM liked WHERE user_id = ${user_id} AND recipe_id = ${id}`, (err, results) => {
             if (!err){
                 resolve(results)
             } else {

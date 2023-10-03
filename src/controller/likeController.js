@@ -24,14 +24,14 @@ const likeController = {
       const user_id = req.payload.id;
       let checkMenu = await getMenuById(id)
       let checkUserLiked = await getLikeByUser(user_id);
-      let checkMenuLiked = await getLikeById(id)
+      let checkMenuLiked = await getLikeById(user_id, id)
       // return console.log('checliked', checkLiked)
 
       if(!checkMenu.rows[0]){
         return res.status(404).json({status:404, message:'menu not found!'})
       }
   
-      if (checkUserLiked.rows[0] && checkMenuLiked.rows[0]) {
+      if (checkMenuLiked.rows[0]) {
         await delMyLikeMenu(user_id, id)
         return res.status(200).json({
           status: 200,

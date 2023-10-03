@@ -15,10 +15,10 @@ const postBookmark = async (data) => {
 }
 
 
-const getBookmarkById = async (id) => {
+const getBookmarkById = async (user_id, id) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: get bookmark by id', id)
-        pool.query(`SELECT * FROM bookmarked WHERE recipe_id = ${id}`, (err, results) => {
+        pool.query(`SELECT * FROM bookmarked WHERE user_id = ${user_id} AND recipe_id = ${id}`, (err, results) => {
             if (!err){
                 resolve(results)
             } else {
