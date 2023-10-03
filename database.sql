@@ -30,9 +30,6 @@ CREATE TABLE recipe (
     FOREIGN KEY (user_id) REFERENCES register_user(id) ON DELETE CASCADE
 );
 
-ALTER TABLE recipe
-ADD COLUMN like_count INT DEFAULT 0;
-
 CREATE TABLE liked (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
