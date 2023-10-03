@@ -32,7 +32,7 @@ const likeController = {
       }
   
       if (checkUserLiked.rows[0] && checkMenuLiked.rows[0]) {
-        const result = await delMyLikeMenu(user_id, id)
+        await delMyLikeMenu(user_id, id)
         return res.status(200).json({
           status: 200,
           message: 'Delete like menu success!',

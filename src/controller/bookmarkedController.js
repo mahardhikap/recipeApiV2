@@ -32,7 +32,7 @@ const {
         }
     
         if (checkUserBookmarked.rows[0] && checkMenuBookmarked.rows[0]) {
-          const result = await delMyLikeMenu(user_id, id)
+          await delMyBookmarkMenu(user_id, id)
           return res.status(200).json({
             status: 200,
             message: 'Delete bookmark menu success!',
