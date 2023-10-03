@@ -36,7 +36,6 @@ const {
           return res.status(200).json({
             status: 200,
             message: 'Delete bookmark menu success!',
-            data: result.rows[0],
           });
         }
         

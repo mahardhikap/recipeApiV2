@@ -36,7 +36,6 @@ const likeController = {
         return res.status(200).json({
           status: 200,
           message: 'Delete like menu success!',
-          data: result.rows[0],
         });
       }
       
