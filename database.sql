@@ -35,16 +35,16 @@ CREATE TABLE liked (
     user_id INT NOT NULL,
     recipe_id INT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (user_id) REFERENCES register_user(id),
-    FOREIGN KEY (recipe_id) REFERENCES recipe(id)
+    FOREIGN KEY (user_id) REFERENCES register_user(id) ON DELETE CASCADE,
+    FOREIGN KEY (recipe_id) REFERENCES recipe(id) ON DELETE CASCADE
 );
 CREATE TABLE bookmarked (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
     recipe_id INT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (user_id) REFERENCES register_user(id),
-    FOREIGN KEY (recipe_id) REFERENCES recipe(id)
+    FOREIGN KEY (user_id) REFERENCES register_user(id) ON DELETE CASCADE,
+    FOREIGN KEY (recipe_id) REFERENCES recipe(id) ON DELETE CASCADE
 );
 
 CREATE TABLE comment (
@@ -53,8 +53,8 @@ CREATE TABLE comment (
     user_id INT NOT NULL,
     recipe_id INT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (user_id) REFERENCES register_user(id),
-    FOREIGN KEY (recipe_id) REFERENCES recipe(id)
+    FOREIGN KEY (user_id) REFERENCES register_user(id) ON DELETE CASCADE,
+    FOREIGN KEY (recipe_id) REFERENCES recipe(id) ON DELETE CASCADE
 );
 
 --CHECK AMOUNT LIKE--
