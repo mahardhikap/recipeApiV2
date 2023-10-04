@@ -217,7 +217,7 @@ const userController = {
     },
     sendForgetOTP:async (req, res) => {
         try {
-            const {email} = req.body
+            const {email} = req.params
             let checkUser = await checkEmailUser(email)
             // return(console.log(checkUser))
             if(checkUser.rowCount < 1){

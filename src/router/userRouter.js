@@ -14,6 +14,6 @@ router.put('/user', protect, upload.single('photo'), editUser)
 router.delete('/user', protect, deleteUser)
 router.get('/verify/:id', verify)
 router.put('/forget', forgetPass)
-router.post('/forget', sendForgetOTP)
+router.post('/forget/:email', sendForgetOTP)
 
 module.exports = router
