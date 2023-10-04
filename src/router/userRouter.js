@@ -1,4 +1,4 @@
-const {registerUser, loginUser, getUserId, getUserPayloadId, allUser, editUser, deleteUser, verify} = require('../controller/userController')
+const {registerUser, loginUser, getUserId, getUserPayloadId, allUser, editUser, deleteUser, verify, forgetPass, sendForgetOTP} = require('../controller/userController')
 const {protect} = require('../middleware/jwt')
 const upload = require('../middleware/multer')
 
@@ -13,5 +13,7 @@ router.get('/user', allUser)
 router.put('/user', protect, upload.single('photo'), editUser)
 router.delete('/user', protect, deleteUser)
 router.get('/verify/:id', verify)
+router.put('/forget', forgetPass)
+router.post('/forget', sendForgetOTP)
 
 module.exports = router

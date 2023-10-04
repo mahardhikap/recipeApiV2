@@ -93,6 +93,20 @@ const activatedAccount = async (uuid) => {
     })
 }
 
+const forgetPassword = async (post) => {
+    return new Promise((resolve, reject)=>{
+        console.log("model forget password")
+        const {password, email, validate} = post
+        pool.query(`UPDATE register_user SET password = '${password}' WHERE email = '${email}' AND validate = '${validate}' RETURNING *`, (err, result)=> {
+         if (!err) {
+             resolve(result);
+         } else {
+             reject(err);
+         }
+        })
+    })
+}
+
 module.exports = {
     postRegisterUser,
     checkEmailUser,
@@ -100,5 +114,6 @@ module.exports = {
     getUserAll,
     putUserById,
     delUserById,
-    activatedAccount
+    activatedAccount,
+    forgetPassword
 }

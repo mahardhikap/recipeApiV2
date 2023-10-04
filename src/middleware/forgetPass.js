@@ -10,22 +10,21 @@ let transporter = nodemailer.createTransport({
     },
 });
 
-const sendEmail = async (email_client, name, url, code) => {
+const sendOTP = async (email_client, name, code) => {
     let mailOption = {
         from: `"Recipe App" <${process.env.EMAIL_NAME}>`,
         to: email_client,
-        subject: `Activation email for ${name}`,
+        subject: `Change Password For ${name}`,
         html: `
         <div style="text-align: center;">
         <img src="https://i.ibb.co/ZcsX3g3/fix.png" alt="Logo Recipe" width="150" height="150" style="display: block; margin: 0 auto;">
         </div>
         <br>
         Hello <b>${name}</b>,<br>
-        Here is the code to activate Email, copy this:<br>
+        Here is the code to change password, copy this:<br>
         <blockquote>
         <span style="background-color: yellow"><strong>${code}</strong></span>
         </blockquote><br>
-        Or you can click this link to activate email <i><a href="${url}">click here</a></i>.<br>
         Thank you for your trust in using our services.<br>
         <strong>Mahardhika Putra P</strong>
         `,
@@ -41,4 +40,4 @@ const sendEmail = async (email_client, name, url, code) => {
     }
 };
 
-module.exports = sendEmail
+module.exports = sendOTP

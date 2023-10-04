@@ -1,10 +1,11 @@
-const {postRegisterUser, checkEmailUser, getUserById, getUserAll, putUserById, delUserById, activatedAccount} = require('../model/userModel')
+const {postRegisterUser, checkEmailUser, getUserById, getUserAll, putUserById, delUserById, activatedAccount, forgetPassword} = require('../model/userModel')
 const {getMenuByUser} = require('../model/menuModel')
 const { hashPassword, verifyPassword } = require('../middleware/bcrypt')
 const {generateToken} = require('../middleware/jwt')
 const cloudinary = require('../config/cloudinary')
 const { v4: uuidv4 } = require("uuid");
 const sendEmail = require('../middleware/verifEmail')
+const sendOTP = require('../middleware/forgetPass')
 require('dotenv').config()
 
 const userController = {
@@ -201,7 +202,7 @@ const userController = {
                 return res.status(404).json({status:404, message:"Account id not found!"})
             }
         } catch (error) {
-            console.log('Error when delete user', error.message)
+            console.error('Error when delete user', error.message)
             return res.status(500).json({status:500, message:"Delete account failed!"})
         }
     },
@@ -214,6 +215,51 @@ const userController = {
         }
         return res.status(404).json({ status: 404, message: "Verify failed try again" });
     },
+    sendForgetOTP:async (req, res) => {
+        try {
+            const {email} = req.body
+            let checkUser = await checkEmailUser(email)
+            // return(console.log(checkUser))
+            if(checkUser.rowCount < 1){
+                return res.status(404).json({status:404, message:'Email not found!'})
+            }
+            let resultSend = await sendOTP(email, checkUser.rows[0].username, checkUser.rows[0].validate);
+            console.log('Send OTP', resultSend)
+            return res.status(200).json({status:200, message:'Send OTP success, check email!'})
+        } catch (error) {
+            console.error('error when send OTP', error.message)
+            return res.status(500).json({status:500, message:'Send OTP failed!'})
+        }
+    },
+    forgetPass: async (req, res) => {
+        try {
+            const {password, email, validate} = req.body
+            if(!password || !email || !validate){
+                return res.status(404).json({status:404, message:'Fill all field!'})
+            }
+            let checkUser = await checkEmailUser(email)
+            // return(console.log(checkUser))
+            if(checkUser.rowCount < 1){
+                return res.status(404).json({status:404, message:'This email not registered!'})
+            }
+            let post = {
+                password: await hashPassword(password),
+                email: email,
+                validate: validate
+            }
+
+            const result = await forgetPassword(post)
+            // return console.log(result)
+            if(result.rows[0]){
+                return res.status(200).json({status:200, message:'Change password success!', data:result.rows[0]})
+            } else {
+                return res.status(404).json({status:404, message:'Some credential not valid!'})
+            }
+        } catch (error) {
+            console.error('Error when update password', error.message)
+            return res.status(500).json({status:500, message:'Change password failed!', error:error.message})
+        }
+    }
 }
 
 module.exports = userController
