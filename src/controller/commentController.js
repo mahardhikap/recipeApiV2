@@ -108,6 +108,8 @@ const commentController = {
             const result = await delComment(id, user_id)
             if(result.rows[0]){
                 return res.status(200).json({status:200, message:'Delete comment success!', data:result.rows[0]})
+            } else {
+              return res.status(404).json({status:404, message:'Comment not found!'})
             }
         } catch (error) {
             console.error('Delete comment failed!', error.message)
