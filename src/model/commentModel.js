@@ -18,7 +18,7 @@ const getComment = async (id) => {
     //use id recipe
     return new Promise((resolve, reject)=>{
         console.log('Model: get comment menu', id)
-        pool.query(`SELECT comment.id, comment.user_id, register_user.username, register_user.photo, register_user.roles, comment.text FROM comment JOIN register_user ON comment.user_id = register_user.id JOIN recipe ON comment.recipe_id = recipe.id WHERE comment.recipe_id=${id} ORDER BY comment.created_at DESC`, (err, results) => {
+        pool.query(`SELECT comment.id, comment.user_id, register_user.username, register_user.photo, register_user.roles, comment.text FROM comment JOIN register_user ON comment.user_id = register_user.id JOIN recipe ON comment.recipe_id = recipe.id WHERE comment.recipe_id=${id} ORDER BY comment.created_at ASC`, (err, results) => {
             if (!err){
                 resolve(results)
             } else {
