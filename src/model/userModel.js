@@ -55,7 +55,7 @@ const getUserAll = async () => {
 
 const putUserById = async (post) => {
     return new Promise((resolve, reject)=>{
-        console.log('Model: edit user')
+        console.log('Model: edit user', post)
         const {username, email, password, photo, photo_id, id} = post
         pool.query(`UPDATE register_user SET username = '${username}', email = '${email}', password = '${password}', photo = '${photo}', photo_id = '${photo_id}' WHERE id = ${id} RETURNING *`, (err, results) => {
             if (!err) {

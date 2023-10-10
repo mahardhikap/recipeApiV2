@@ -172,8 +172,7 @@ const menuController = {
         post.photo = result_up.secure_url;
         post.photo_id = result_up.public_id;
       } else {
-        // Jika tidak ada gambar baru diupload, ambil gambar yang masih ada
-        post.photo = data.rows[0].photo;
+        post.photo = data.rows[0].photo_menu;
         post.photo_id = data.rows[0].photo_id;
       }
 

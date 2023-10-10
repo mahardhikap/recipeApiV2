@@ -88,7 +88,7 @@ const getMenuCount = async (data) => {
 
 const putMenuById = async (post) => {
   return new Promise((resolve, reject) => {
-    console.log('Model: edit menu');
+    console.log('Model: edit menu', post);
     const { title, ingredients, category_id, photo, photo_id, id } = post;
     pool.query(
       `UPDATE recipe SET title = '${title}', ingredients = '${ingredients}', category_id = '${category_id}', photo = '${photo}', photo_id = '${photo_id}' WHERE id = ${id} RETURNING *`,
