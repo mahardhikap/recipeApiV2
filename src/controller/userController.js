@@ -42,7 +42,7 @@ const userController = {
 
               const result = await postRegisterUser(post)
               if(result.rows[0]){
-                let resultSend = await sendEmail(email, username, `http://localhost:3000/verify/${uuid}`, uuid);
+                let resultSend = await sendEmail(email, username, `https://recipe.project13.my.id/direct/${uuid}`, uuid);
                 console.log('Send email verification', resultSend)
                 return res.status(200).json({status:200, message:"Registration success, check email for verification!", data: result.rows[0]})
               }
