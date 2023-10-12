@@ -111,6 +111,7 @@ You can reach me on:
 [![gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:putrad578@gmail.com)
 [![instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/mahardhika300617)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mahardhikapratama)
+[![github](https://img.shields.io/badge/Github-232b2b?style=for-the-badge&logo=github&logoColor=white)](https://www.github.com/mahardhikap)
 
 I know this project is not perfect.
 
